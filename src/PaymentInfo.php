@@ -157,19 +157,19 @@ class PaymentInfo extends Message implements PaymentInfoInterface
      *
      * @var string
      */
-    private $institution_name = '';
+    private $institutionName = '';
     /**
      * Institution Address
      *
      * @var string
      */
-    private $institution_address = '';
+    private $institutionAddress = '';
     /**
      * Clearance Id
      *
      * @var string
      */
-    private $clearance_id = '';
+    private $clearanceId = '';
     /**
      * This property is optional
      *
@@ -268,17 +268,17 @@ class PaymentInfo extends Message implements PaymentInfoInterface
     
     public function getInstitutionName()
     {
-        return $this->institution_name;
+        return $this->institutionName;
     }
     
     public function getInstitutionAddress()
     {
-        return $this->institution_address;
+        return $this->institutionAddress;
     }
     
     public function getClearanceId()
     {
-        return $this->clearance_id;
+        return $this->clearanceId;
     }
 
     /**
@@ -397,7 +397,7 @@ class PaymentInfo extends Message implements PaymentInfoInterface
      */
     public function setInstitutionName($institution_name)
     {
-        return $this->institution_name = $institution_name;
+        return $this->institutionName = $institution_name;
     }
     
     /**
@@ -405,7 +405,7 @@ class PaymentInfo extends Message implements PaymentInfoInterface
      */
     public function setInstitutionAddress($institution_address)
     {
-        return $this->institution_address = $institution_address;
+        return $this->institutionAddress = $institution_address;
     }
 
     /**
