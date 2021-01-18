@@ -153,6 +153,18 @@ class PaymentInfo extends Message implements PaymentInfoInterface
      */
     private $currency = '';
     /**
+     * Institution Name
+     *
+     * @var string
+     */
+    private $institution_name = '';
+    /**
+     * Institution Address
+     *
+     * @var string
+     */
+    private $institution_address = '';
+    /**
      * Clearance Id
      *
      * @var string
@@ -252,6 +264,16 @@ class PaymentInfo extends Message implements PaymentInfoInterface
     public function getCurrency()
     {
         return $this->currency;
+    }
+    
+    public function getInstitutionName()
+    {
+        return $this->institution_name;
+    }
+    
+    public function getInstitutionAddress()
+    {
+        return $this->institution_address;
     }
     
     public function getClearanceId()
@@ -368,6 +390,22 @@ class PaymentInfo extends Message implements PaymentInfoInterface
     public function setClearanceId($id)
     {
         return $this->clearance_id = $id;
+    }
+    
+    /**
+     * @return string
+     */
+    public function setInstitutionName($institution_name)
+    {
+        return $this->institution_name = $institution_name;
+    }
+    
+    /**
+     * @return string
+     */
+    public function setInstitutionAddress($institution_address)
+    {
+        return $this->institution_address = $institution_address;
     }
 
     /**
@@ -1017,6 +1055,9 @@ class PaymentInfo extends Message implements PaymentInfoInterface
         $financialInstitutionIdentification = $debitorAgent->addChild('FinInstnId');
         $clearance_id = $financialInstitutionIdentification->addChild('ClrSysMmbId');
         $mmid = $clearance_id->addChild('MmbId', $this->getClearanceId());
+        $institution_name = $financialInstitutionIdentification->addChild('Nm', $this->getInstitutionName());
+        $postal_address = $financialInstitutionIdentification->addChild('PstlAdr');
+        $country = $postal_address->addChild('Ctry', $this->getInstitutionAddress());
         //$paymentInfo->addChild('ChrgBr', self::CHARGE_BEARER);
     }
 }
