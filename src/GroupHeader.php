@@ -60,9 +60,15 @@ class GroupHeader extends Message implements GroupHeaderInterface
     /**
      * Authorisation
      *
-     * @var float
+     * @var string
      */
     private $Authorisation = '';
+    /**
+     * Scheme
+     *
+     * @var string
+     */
+    private $Scheme = '';
     /**
      * Total of all individual amounts included in the message, irrespective of currencies
      *
@@ -117,6 +123,14 @@ class GroupHeader extends Message implements GroupHeaderInterface
     public function getAuthorisation()
     {
         return $this->Authorisation;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getScheme()
+    {
+        return $this->Scheme;
     }
 
     /**
@@ -240,6 +254,11 @@ class GroupHeader extends Message implements GroupHeaderInterface
     {
         return $this->Authorisation = $Authorisation;
     }
+    
+    public function setScheme($Scheme)
+    {
+        return $this->Scheme = $Scheme;
+    }
 
     /**
      * This method returns the total Amount that has been registered for all payment info
@@ -345,6 +364,8 @@ class GroupHeader extends Message implements GroupHeaderInterface
             $concrete_id = $id->addChild('OrgId');
             $other = $concrete_id->addChild('Othr');
             $other->addChild('Id', $this->OrganisationIdentification);
+            $scheme = $other->addChild('SchmeNm');
+            $scheme_cd = $scheme->addChild('Cd', $this->getScheme());
             if (!empty($this->Issuer)) {
                 $other->addChild('Issr', $this->Issuer);
             }
