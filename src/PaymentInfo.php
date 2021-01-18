@@ -990,7 +990,7 @@ class PaymentInfo extends Message implements PaymentInfoInterface
 
         $debitorAccount = $paymentInfo->addChild('DbtrAcct');
         $debitorAccountID = $debitorAccount->addChild('Id');
-        $other = $debitorAccountID->addChild('Othr', $this->getDebitorAccountIBAN());
+        $other = $debitorAccountID->addChild('Othr');
         $other->addChild('Id', $this->getDebitorAccountIBAN());
         $currency = $debitorAccount->addChild('Ccy', $this->getCurrency());
 
