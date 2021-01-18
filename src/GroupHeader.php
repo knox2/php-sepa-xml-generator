@@ -58,6 +58,12 @@ class GroupHeader extends Message implements GroupHeaderInterface
     private $AddressLine = '';
     private $Country = '';
     /**
+     * Authorisation
+     *
+     * @var float
+     */
+    private $Authorisation = '';
+    /**
      * Total of all individual amounts included in the message, irrespective of currencies
      *
      * @var float
@@ -103,6 +109,14 @@ class GroupHeader extends Message implements GroupHeaderInterface
     public function getMessageIdentification()
     {
         return $this->messageIdentification;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getAuthorisation()
+    {
+        return $this->Authorisation;
     }
 
     /**
@@ -221,6 +235,11 @@ class GroupHeader extends Message implements GroupHeaderInterface
     {
         return $this->Country;
     }
+    
+    public function setAuthorisation($Authorisation)
+    {
+        return $this->Authorisation = $Authorisation;
+    }
 
     /**
      * This method returns the total Amount that has been registered for all payment info
@@ -306,6 +325,8 @@ class GroupHeader extends Message implements GroupHeaderInterface
         if ($this->getDocumentPainMode() === self::PAIN_001_001_02) {
             $groupHeader->addChild('BtchBookg', $this->boolToString($this->getBatchBooking()));
         }
+        $authorisation = $groupHeader->addChild('Authstn');
+        $cd = $authorisation->addChild('Cd', $this->getAuthorisation());
         $groupHeader->addChild('NbOfTxs', $this->getNumberOfTransactions());
         $groupHeader->addChild('CtrlSum', $this->getControlSum());
 
