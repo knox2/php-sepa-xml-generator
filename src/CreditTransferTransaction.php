@@ -63,6 +63,7 @@ class CreditTransferTransaction extends PaymentInfo implements TransactionInterf
      * @var string
      */
     private $creditorName = '';
+    private $creditorCountry = '';
     private $currency = '';
     
     /**
@@ -70,13 +71,13 @@ class CreditTransferTransaction extends PaymentInfo implements TransactionInterf
      *
      * @var string
      */
-    private $institution_address = '';
+    private $institutionAddress = '';
     /**
      * Clearance Id
      *
      * @var string
      */
-    private $clearance_id = '';
+    private $clearanceId = '';
 
     /**
      * @param $instructionIdentifier
@@ -98,12 +99,17 @@ class CreditTransferTransaction extends PaymentInfo implements TransactionInterf
     
     public function getInstitutionAddress()
     {
-        return $this->institution_address;
+        return $this->institutionAddress;
     }
     
     public function getClearanceId()
     {
-        return $this->clearance_id;
+        return $this->clearanceId;
+    }
+    
+    public function getCreditorCountry()
+    {
+        return $this->creditorCountry;
     }
 
     /**
@@ -261,9 +267,17 @@ class CreditTransferTransaction extends PaymentInfo implements TransactionInterf
     /**
      * @return string
      */
+    public function setCreditorCountry($country)
+    {
+        return $this->creditorCountry = $country;
+    }
+    
+    /**
+     * @return string
+     */
     public function setClearanceId($id)
     {
-        return $this->clearance_id = $id;
+        return $this->clearanceId = $id;
     }
     
     /**
@@ -271,7 +285,7 @@ class CreditTransferTransaction extends PaymentInfo implements TransactionInterf
      */
     public function setInstitutionAddress($institution_address)
     {
-        return $this->institution_address = $institution_address;
+        return $this->institutionAddress = $institution_address;
     }
 
     public function checkIsValidTransaction()
@@ -304,10 +318,12 @@ class CreditTransferTransaction extends PaymentInfo implements TransactionInterf
 
         $creditor = $creditTransferTransactionInformation->addChild("Cdtr");
         $creditor->addChild("Nm", $this->getCreditorName());
+        $postal_address = $creditor->addChild('PstlAdr');
+        $country = $postal_address->addChild('Ctry', $this->getCreditorCountry());
 
-        $creditTransferTransactionInformation->addChild('CdtrAcct')
-            ->addChild('Id')
-            ->addChild('IBAN', $this->getIBAN());
+        $credit_acc = $creditTransferTransactionInformation->addChild('CdtrAcct');
+        $credit_acc_id = $credit_acc->addChild('Id');
+        $credit_acc_id->addChild('Othr', $this->getIBAN());
 
         if ($this->getCreditInvoice()) {
             $creditTransferTransactionInformation->addChild('RmtInf')
