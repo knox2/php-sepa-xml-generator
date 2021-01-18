@@ -147,6 +147,12 @@ class PaymentInfo extends Message implements PaymentInfoInterface
      */
     private $ultimateCreditor = '';
     /**
+     * Currency
+     *
+     * @var string
+     */
+    private $currency = '';
+    /**
      * This property is optional
      *
      * @var string
@@ -235,6 +241,11 @@ class PaymentInfo extends Message implements PaymentInfoInterface
     public function getDebitorName()
     {
         return $this->debitorName;
+    }
+    
+    public function getCurrency()
+    {
+        return $this->currency;
     }
 
     /**
@@ -329,6 +340,15 @@ class PaymentInfo extends Message implements PaymentInfoInterface
     public function getUseSchemaNameCore()
     {
         return $this->useSchemaName;
+    }
+    
+    
+    /**
+     * @return string
+     */
+    public function setCurrency($currency)
+    {
+        return $this->currency = $currency;
     }
 
     /**
@@ -970,7 +990,9 @@ class PaymentInfo extends Message implements PaymentInfoInterface
 
         $debitorAccount = $paymentInfo->addChild('DbtrAcct');
         $debitorAccountID = $debitorAccount->addChild('Id');
-        $debitorAccountID->addChild('IBAN', $this->getDebitorAccountIBAN());
+        $other = $debitorAccountID->addChild('Othr', $this->getDebitorAccountIBAN());
+        $other->addChild('Id', $this->getDebitorAccountIBAN());
+        $currency = $debitorAccount->addChild('Ccy');
 
         $debitorAgent = $paymentInfo->addChild('DbtrAgt');
         $financialInstitutionIdentification = $debitorAgent->addChild('FinInstnId');
