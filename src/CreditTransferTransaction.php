@@ -64,6 +64,19 @@ class CreditTransferTransaction extends PaymentInfo implements TransactionInterf
      */
     private $creditorName = '';
     private $currency = '';
+    
+    /**
+     * Institution Address
+     *
+     * @var string
+     */
+    private $institution_address = '';
+    /**
+     * Clearance Id
+     *
+     * @var string
+     */
+    private $clearance_id = '';
 
     /**
      * @param $instructionIdentifier
@@ -81,6 +94,16 @@ class CreditTransferTransaction extends PaymentInfo implements TransactionInterf
     public function getInstructionIdentification()
     {
         return $this->InstructionIdentification;
+    }
+    
+    public function getInstitutionAddress()
+    {
+        return $this->institution_address;
+    }
+    
+    public function getClearanceId()
+    {
+        return $this->clearance_id;
     }
 
     /**
@@ -234,6 +257,22 @@ class CreditTransferTransaction extends PaymentInfo implements TransactionInterf
         }
         return $this->currency;
     }
+    
+    /**
+     * @return string
+     */
+    public function setClearanceId($id)
+    {
+        return $this->clearance_id = $id;
+    }
+    
+    /**
+     * @return string
+     */
+    public function setInstitutionAddress($institution_address)
+    {
+        return $this->institution_address = $institution_address;
+    }
 
     public function checkIsValidTransaction()
     {
@@ -257,7 +296,11 @@ class CreditTransferTransaction extends PaymentInfo implements TransactionInterf
 
         $creditorAgent = $creditTransferTransactionInformation->addChild('CdtrAgt');
         $financialInstitution = $creditorAgent->addChild('FinInstnId');
-        $financialInstitution->addChild('BIC', $this->getBIC());
+        $clearance_id = $financialInstitution->addChild('ClrSysMmbId');
+        $mmid = $clearance_id->addChild('MmbId', $this->getClearanceId());
+        $postal_address = $financialInstitution->addChild('PstlAdr');
+        $country = $postal_address->addChild('Ctry', $this->getInstitutionAddress());
+        //$financialInstitution->addChild('BIC', $this->getBIC());
 
         $creditor = $creditTransferTransactionInformation->addChild("Cdtr");
         $creditor->addChild("Nm", $this->getCreditorName());
