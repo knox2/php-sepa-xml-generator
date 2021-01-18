@@ -153,6 +153,12 @@ class PaymentInfo extends Message implements PaymentInfoInterface
      */
     private $currency = '';
     /**
+     * Clearance Id
+     *
+     * @var string
+     */
+    private $clearance_id = '';
+    /**
      * This property is optional
      *
      * @var string
@@ -246,6 +252,11 @@ class PaymentInfo extends Message implements PaymentInfoInterface
     public function getCurrency()
     {
         return $this->currency;
+    }
+    
+    public function getClearanceId()
+    {
+        return $this->clearance_id;
     }
 
     /**
@@ -349,6 +360,14 @@ class PaymentInfo extends Message implements PaymentInfoInterface
     public function setCurrency($currency)
     {
         return $this->currency = $currency;
+    }
+    
+    /**
+     * @return string
+     */
+    public function setClearanceId($id)
+    {
+        return $this->clearance_id = $id;
     }
 
     /**
@@ -996,8 +1015,8 @@ class PaymentInfo extends Message implements PaymentInfoInterface
 
         $debitorAgent = $paymentInfo->addChild('DbtrAgt');
         $financialInstitutionIdentification = $debitorAgent->addChild('FinInstnId');
-        $financialInstitutionIdentification->addChild('BIC', $this->getDebitorAccountBIC());
-
-        $paymentInfo->addChild('ChrgBr', self::CHARGE_BEARER);
+        $clearance_id = $financialInstitutionIdentification->addChild('ClrSysMmbId');
+        $mmid = $clearance_id->addChild('MmbId', $this->getClearanceId());
+        //$paymentInfo->addChild('ChrgBr', self::CHARGE_BEARER);
     }
 }
