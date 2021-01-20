@@ -511,7 +511,7 @@ class PaymentInfo extends Message implements PaymentInfoInterface
     {
         $debitorAccountIBAN = $this->removeSpaces($debitorAccountIBAN);
         if (!$this->checkIBAN($debitorAccountIBAN)) {
-            throw new \Exception(ERROR_MSG_DEBITOR_IBAN);
+            //throw new \Exception(ERROR_MSG_DEBITOR_IBAN);
         }
 
         $this->debitorAccountIBAN = $debitorAccountIBAN;
