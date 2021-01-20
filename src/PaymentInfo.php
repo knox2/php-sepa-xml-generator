@@ -390,7 +390,7 @@ class PaymentInfo extends Message implements PaymentInfoInterface
      */
     public function setClearanceId($id)
     {
-        $this->clearance_id = $id;
+        $this->clearanceId = $id;
         return $this;
     }
     
