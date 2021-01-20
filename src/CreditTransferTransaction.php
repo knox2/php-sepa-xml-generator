@@ -265,27 +265,30 @@ class CreditTransferTransaction extends PaymentInfo implements TransactionInterf
     }
     
     /**
-     * @return string
+     * @return
      */
     public function setCreditorCountry($country)
     {
-        return $this->creditorCountry = $country;
+        $this->creditorCountry = $country;
+        return $this;
     }
     
     /**
-     * @return string
+     * @return 
      */
     public function setClearanceId($id)
     {
-        return $this->clearanceId = $id;
+        $this->clearanceId = $id;
+        return $this;
     }
     
     /**
-     * @return string
+     * @return 
      */
     public function setInstitutionAddress($institution_address)
     {
-        return $this->institutionAddress = $institution_address;
+        $this->institutionAddress = $institution_address;
+        return $this;
     }
 
     public function checkIsValidTransaction()
