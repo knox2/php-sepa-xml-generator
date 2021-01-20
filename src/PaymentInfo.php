@@ -893,10 +893,10 @@ class PaymentInfo extends Message implements PaymentInfoInterface
         $paymentInfo->addChild('PmtMtd', $this->getPaymentMethod());
 
         if (!$this->getCreditTransferTransactionObjects() || $this->getDocumentPainMode() === self::PAIN_001_001_03) {
-            $paymentInfo->addChild('BtchBookg', $this->boolToString($this->getBatchBooking()));
+            //$paymentInfo->addChild('BtchBookg', $this->boolToString($this->getBatchBooking()));
         }
 
-        if (!$this->getCreditTransferTransactionObjects() && ($this->getDocumentPainMode() === self::PAIN_001_001_03 || $this->getDocumentPainMode() === self::PAIN_008_001_02)) {
+        if ($this->getCreditTransferTransactionObjects() && ($this->getDocumentPainMode() === self::PAIN_001_001_03 || $this->getDocumentPainMode() === self::PAIN_008_001_02)) {
             $paymentInfo->addChild('NbOfTxs', $this->getNumberOfTransactions());
             $paymentInfo->addChild('CtrlSum', $this->getControlSum());
         }
@@ -954,8 +954,8 @@ class PaymentInfo extends Message implements PaymentInfoInterface
     protected function addPaymentTypeInfoToXml(\SimpleXMLElement $paymentInfo)
     {
         $paymentTypeInfo = $paymentInfo->addChild('PmtTpInf');
-        $serviceLevel = $paymentTypeInfo->addChild('SvcLvl');
-        $serviceLevel->addChild('Cd', self::SERVICE_LEVEL_CODE);
+        $serviceLevel = $paymentTypeInfo->addChild('InstrPrty', 'HIGH');
+        //$serviceLevel->addChild('Cd', self::SERVICE_LEVEL_CODE);
 
         if ($this->localInstrumentCode) {
             $localInstrument = $paymentTypeInfo->addChild('LclInstrm');
