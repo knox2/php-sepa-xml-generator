@@ -381,7 +381,8 @@ class PaymentInfo extends Message implements PaymentInfoInterface
      */
     public function setCurrency($currency)
     {
-        return $this->currency = $currency;
+        $this->currency = $currency;
+        return $this;
     }
     
     /**
@@ -389,7 +390,8 @@ class PaymentInfo extends Message implements PaymentInfoInterface
      */
     public function setClearanceId($id)
     {
-        return $this->clearance_id = $id;
+        $this->clearance_id = $id;
+        return $this;
     }
     
     /**
@@ -397,7 +399,8 @@ class PaymentInfo extends Message implements PaymentInfoInterface
      */
     public function setInstitutionName($institution_name)
     {
-        return $this->institutionName = $institution_name;
+        $this->institutionName = $institution_name;
+        return $this;
     }
     
     /**
@@ -405,7 +408,8 @@ class PaymentInfo extends Message implements PaymentInfoInterface
      */
     public function setInstitutionAddress($institution_address)
     {
-        return $this->institutionAddress = $institution_address;
+        $this->institutionAddress = $institution_address;
+        return $this;
     }
 
     /**
