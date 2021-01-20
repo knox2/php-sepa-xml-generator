@@ -252,12 +252,14 @@ class GroupHeader extends Message implements GroupHeaderInterface
     
     public function setAuthorisation($Authorisation)
     {
-        return $this->Authorisation = $Authorisation;
+        $this->Authorisation = $Authorisation;
+        return $this;
     }
     
     public function setScheme($Scheme)
     {
-        return $this->Scheme = $Scheme;
+        $this->Scheme = $Scheme;
+        return $this;
     }
 
     /**
