@@ -935,7 +935,7 @@ class PaymentInfo extends Message implements PaymentInfoInterface
         }
 
         //Once we have taken care of all the transactions, we can update the total number of transactions and the control sum
-        if (!$this->getCreditTransferTransactionObjects() && ($this->getDocumentPainMode() === self::PAIN_001_001_03 || $this->getDocumentPainMode() === self::PAIN_008_001_02)) {
+        if ($this->getCreditTransferTransactionObjects() && ($this->getDocumentPainMode() === self::PAIN_001_001_03 || $this->getDocumentPainMode() === self::PAIN_008_001_02)) {
             $paymentInfo->NbOfTxs = $this->getNumberOfTransactions();
             $paymentInfo->CtrlSum = $this->getControlSum();
         }
