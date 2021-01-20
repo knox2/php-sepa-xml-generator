@@ -192,7 +192,7 @@ class CreditTransferTransaction extends PaymentInfo implements TransactionInterf
         $IBAN = $this->removeSpaces($IBAN);
 
         if (!$this->checkIBAN($IBAN)) {
-            throw new \Exception(ERROR_MSG_DD_IBAN . $this->getInstructionIdentification());
+            //throw new \Exception(ERROR_MSG_DD_IBAN . $this->getInstructionIdentification());
         }
         $this->IBAN = $IBAN;
         return $this;
