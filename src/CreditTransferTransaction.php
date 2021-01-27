@@ -326,7 +326,8 @@ class CreditTransferTransaction extends PaymentInfo implements TransactionInterf
 
         $credit_acc = $creditTransferTransactionInformation->addChild('CdtrAcct');
         $credit_acc_id = $credit_acc->addChild('Id');
-        $credit_acc_id->addChild('Othr', $this->getIBAN());
+        $credit_acc_othr = $credit_acc_id->addChild('Othr');
+        $credit_acc_id->addChild('Id', $this->getIBAN());
 
         if ($this->getCreditInvoice()) {
             $creditTransferTransactionInformation->addChild('RmtInf')
