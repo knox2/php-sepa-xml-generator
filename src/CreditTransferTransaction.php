@@ -3,7 +3,7 @@
  * Created by Ruben Podadera. e-mail: ruben.podadera@gmail.com
  * Date: 2/12/14
  * Time: 12:02 PM
- * Credit Transfert Transactions
+ * Credit Transfer Transactions
  */
 
 namespace SEPA;
@@ -327,7 +327,7 @@ class CreditTransferTransaction extends PaymentInfo implements TransactionInterf
         $credit_acc = $creditTransferTransactionInformation->addChild('CdtrAcct');
         $credit_acc_id = $credit_acc->addChild('Id');
         $credit_acc_othr = $credit_acc_id->addChild('Othr');
-        $credit_acc_id->addChild('Id', $this->getIBAN());
+        $credit_acc_othr->addChild('Id', $this->getIBAN());
 
         if ($this->getCreditInvoice()) {
             $creditTransferTransactionInformation->addChild('RmtInf')
