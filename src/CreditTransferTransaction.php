@@ -78,6 +78,13 @@ class CreditTransferTransaction extends PaymentInfo implements TransactionInterf
      * @var string
      */
     private $clearanceId = '';
+    
+    /**
+     * Uses Beneficiary Codes
+     *
+     * @var string
+     */
+    private $usesBeneficiaryCodes = true;
 
     /**
      * @param $instructionIdentifier
@@ -290,6 +297,24 @@ class CreditTransferTransaction extends PaymentInfo implements TransactionInterf
         $this->institutionAddress = $institution_address;
         return $this;
     }
+    
+    /**
+     * @param $usesBeneficiaryCodes
+     * @return $this
+     */
+    public function setUsesBeneficiaryCode($usesBeneficiaryCodes)
+    {
+        $this->usesBeneficiaryCodes = $usesBeneficiaryCodes;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsesBeneficiaryCode()
+    {
+        return $this->usesBeneficiaryCodes;
+    }
 
     public function checkIsValidTransaction()
     {
@@ -310,24 +335,34 @@ class CreditTransferTransaction extends PaymentInfo implements TransactionInterf
         $amount = $creditTransferTransactionInformation->addChild('Amt');
         $amount->addChild('InstdAmt', $this->getInstructedAmount())
             ->addAttribute('Ccy', $this->getCurrency());
+        
+        if($this->getUsesBeneficiaryCode()){
+            $creditor = $creditTransferTransactionInformation->addChild("Cdtr");
+            $creditor_id = $creditor->addChild("Id");
+            $creditor_org_id = $creditor_id->addChild("OrgId");
+            $creditor_othr = $creditor_org_id->addChild('Othr');
+            $creditor_othr->addChild('Id', $this->getIBAN());
+            $creditor_scheme = $creditor_othr->addChild('SchmeNm');
+            $creditor_scheme->addChild('Cd', 'CUST');
+        } else{
+            $creditorAgent = $creditTransferTransactionInformation->addChild('CdtrAgt');
+            $financialInstitution = $creditorAgent->addChild('FinInstnId');
+            $clearance_id = $financialInstitution->addChild('ClrSysMmbId');
+            $mmid = $clearance_id->addChild('MmbId', $this->getClearanceId());
+            $postal_address = $financialInstitution->addChild('PstlAdr');
+            $country = $postal_address->addChild('Ctry', $this->getInstitutionAddress());
+            //$financialInstitution->addChild('BIC', $this->getBIC());
 
-        $creditorAgent = $creditTransferTransactionInformation->addChild('CdtrAgt');
-        $financialInstitution = $creditorAgent->addChild('FinInstnId');
-        $clearance_id = $financialInstitution->addChild('ClrSysMmbId');
-        $mmid = $clearance_id->addChild('MmbId', $this->getClearanceId());
-        $postal_address = $financialInstitution->addChild('PstlAdr');
-        $country = $postal_address->addChild('Ctry', $this->getInstitutionAddress());
-        //$financialInstitution->addChild('BIC', $this->getBIC());
+            $creditor = $creditTransferTransactionInformation->addChild("Cdtr");
+            $creditor->addChild("Nm", $this->getCreditorName());
+            $postal_address = $creditor->addChild('PstlAdr');
+            $country = $postal_address->addChild('Ctry', $this->getCreditorCountry());
 
-        $creditor = $creditTransferTransactionInformation->addChild("Cdtr");
-        $creditor->addChild("Nm", $this->getCreditorName());
-        $postal_address = $creditor->addChild('PstlAdr');
-        $country = $postal_address->addChild('Ctry', $this->getCreditorCountry());
-
-        $credit_acc = $creditTransferTransactionInformation->addChild('CdtrAcct');
-        $credit_acc_id = $credit_acc->addChild('Id');
-        $credit_acc_othr = $credit_acc_id->addChild('Othr');
-        $credit_acc_othr->addChild('Id', $this->getIBAN());
+            $credit_acc = $creditTransferTransactionInformation->addChild('CdtrAcct');
+            $credit_acc_id = $credit_acc->addChild('Id');
+            $credit_acc_othr = $credit_acc_id->addChild('Othr');
+            $credit_acc_othr->addChild('Id', $this->getIBAN());
+        }
 
         if ($this->getCreditInvoice()) {
             $creditTransferTransactionInformation->addChild('RmtInf')
