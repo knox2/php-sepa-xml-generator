@@ -218,6 +218,13 @@ class PaymentInfo extends Message implements PaymentInfoInterface
      * @var string
      */
     private $localInstrumentCode = null;
+    
+    /**
+     * Priority
+     *
+     * @var string
+     */
+    private $priority = 'HIGH';
 
     public function __construct()
     {
@@ -783,6 +790,24 @@ class PaymentInfo extends Message implements PaymentInfoInterface
 
         return $this;
     }
+    
+    /**
+     * @param $value
+     * @return $this
+     */
+    public function setPriority($value)
+    {
+        $this->priority = $value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPriority()
+    {
+        return $this->priority;
+    }
 
     /**
      * @param $value
@@ -958,7 +983,7 @@ class PaymentInfo extends Message implements PaymentInfoInterface
     protected function addPaymentTypeInfoToXml(\SimpleXMLElement $paymentInfo)
     {
         $paymentTypeInfo = $paymentInfo->addChild('PmtTpInf');
-        $serviceLevel = $paymentTypeInfo->addChild('InstrPrty', 'HIGH');
+        $serviceLevel = $paymentTypeInfo->addChild('InstrPrty', $this->priority);
         //$serviceLevel->addChild('Cd', self::SERVICE_LEVEL_CODE);
 
         if ($this->localInstrumentCode) {
