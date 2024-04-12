@@ -65,6 +65,14 @@ class CreditTransferTransaction extends PaymentInfo implements TransactionInterf
     private $creditorName = '';
     private $creditorCountry = '';
     private $currency = '';
+
+
+     /**
+     * Institution Name
+     *
+     * @var string
+     */
+    private $institutionName = '';
     
     /**
      * Institution Address
@@ -102,6 +110,12 @@ class CreditTransferTransaction extends PaymentInfo implements TransactionInterf
     public function getInstructionIdentification()
     {
         return $this->InstructionIdentification;
+    }
+
+
+    public function getInstitutionName()
+    {
+        return $this->institutionName;
     }
     
     public function getInstitutionAddress()
@@ -288,6 +302,15 @@ class CreditTransferTransaction extends PaymentInfo implements TransactionInterf
         $this->clearanceId = $id;
         return $this;
     }
+
+    /**
+     * @return 
+     */
+    public function setInstitutionName($institution_name)
+    {
+        $this->institutionName = $institution_name;
+        return $this;
+    }
     
     /**
      * @return 
@@ -349,6 +372,7 @@ class CreditTransferTransaction extends PaymentInfo implements TransactionInterf
             $financialInstitution = $creditorAgent->addChild('FinInstnId');
             $clearance_id = $financialInstitution->addChild('ClrSysMmbId');
             $mmid = $clearance_id->addChild('MmbId', $this->getClearanceId());
+            $inst_name = $financialInstitution->addChild('Nm', $this->getInstitutionName());
             $postal_address = $financialInstitution->addChild('PstlAdr');
             $country = $postal_address->addChild('Ctry', $this->getInstitutionAddress());
             //$financialInstitution->addChild('BIC', $this->getBIC());
