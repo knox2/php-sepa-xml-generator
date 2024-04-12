@@ -226,10 +226,6 @@ class PaymentInfo extends Message implements PaymentInfoInterface
      */
     private $priority = 'HIGH';
 
-    public function __construct()
-    {
-    }
-
     /**
      * Batch Bookings
      *
