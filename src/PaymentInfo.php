@@ -226,35 +226,10 @@ class PaymentInfo extends Message implements PaymentInfoInterface
      */
     private $priority = 'HIGH';
 
-    /**
-     * Batch Bookings
-     *
-     * @var bool
-     */
-    private $is_batch = false;
+    
 
     public function __construct()
     {
-    }
-
-    /**
-     * @return boolean
-     */
-    public function getBatchStatus()
-    {
-        return $this->is_batch;
-    }
-
-    /**
-     * Set Batch Status
-     *
-     * @param boolean $is_batch
-     * @return $this
-     */
-    public function setBatchStatus($is_batch)
-    {
-        $this->is_batch = $is_batch;
-        return $this;
     }
 
     /**
@@ -948,10 +923,8 @@ class PaymentInfo extends Message implements PaymentInfoInterface
         }
         $paymentInfo->addChild('PmtMtd', $this->getPaymentMethod());
 
-        $paymentInfo->addChild('BtchBookg', $this->getBatchStatus());
-
         if (!$this->getCreditTransferTransactionObjects() || $this->getDocumentPainMode() === self::PAIN_001_001_03) {
-            //$paymentInfo->addChild('BtchBookg', $this->boolToString($this->getBatchBooking()));
+            $paymentInfo->addChild('BtchBookg', $this->boolToString($this->getBatchBooking()));
         }
 
         if ($this->getCreditTransferTransactionObjects() && ($this->getDocumentPainMode() === self::PAIN_001_001_03 || $this->getDocumentPainMode() === self::PAIN_008_001_02)) {
