@@ -389,8 +389,12 @@ class CreditTransferTransaction extends PaymentInfo implements TransactionInterf
         }
 
         if ($this->getCreditInvoice()) {
-            $creditTransferTransactionInformation->addChild('RmtInf')
-                ->addChild('Ustrd', $this->getCreditInvoice());
+            $rmt_inf = $creditTransferTransactionInformation->addChild('RmtInf');
+            $rmt_inf->addChild('Ustrd', $this->getCreditInvoice());
+            $strd = $rmt_inf->addChild('Strd');
+            $cdtfref = $strd->addChild('CdtrRefInf');
+            $cdtfreftp = $cdtfref->addChild('CdtrRefTp');
+            $cdtfreftp->addChild('Prtry', 'OTHR');  
         }
 
         return $creditTransferTransactionInformation;
