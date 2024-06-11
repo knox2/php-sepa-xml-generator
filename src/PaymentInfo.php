@@ -932,6 +932,12 @@ class PaymentInfo extends Message implements PaymentInfoInterface
             $paymentInfo->addChild('CtrlSum', $this->getControlSum());
         }
 
+        if($this->getPriority() === 'HIGH'){
+            $tax_inf = $paymentInfo->addChild('CdtTrfTxInf');
+            $tax = $tax_inf->addChild('Tax');
+            $tax_tp = $tax->addChild('TaxTp', 'OTHR');
+        }
+
         $this->addPaymentTypeInfoToXml($paymentInfo);
 
         switch ($this->getPaymentMethod()) {
