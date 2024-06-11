@@ -355,6 +355,11 @@ class CreditTransferTransaction extends PaymentInfo implements TransactionInterf
         $paymentIdentification->addChild('InstrId', $this->getInstructionIdentification());
         $paymentIdentification->addChild('EndToEndId', $this->getEndToEndIdentification());
 
+        if($this->getPriority() === 'HIGH'){
+            $tax = $creditTransferTransactionInformation->addChild('Tax');
+            $tax_tp = $tax->addChild('TaxTp', 'OTHR');
+        }
+
         $amount = $creditTransferTransactionInformation->addChild('Amt');
         $amount->addChild('InstdAmt', $this->getInstructedAmount())
             ->addAttribute('Ccy', $this->getCurrency());
